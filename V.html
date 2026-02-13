@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Korean scrapbook • My Valentine 💖</title>
+  <!-- Google Fonts: Korean handwritten style -->
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Hi+Melody&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #fbe9e7;
+      font-family: 'Hi Melody', 'Gaegu', cursive, sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== PASSWORD SCREEN ===== */
+    #password-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(145deg, #ffd9e6 0%, #ffe4e1 60%, #fff2df 100%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease;
+      padding: 20px;
+    }
+
+    #password-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .password-box {
+      background: rgba(255, 245, 240, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 40px 30px;
+      border-radius: 60px 20px 60px 20px;
+      box-shadow: 0 20px 30px rgba(250, 150, 170, 0.3), inset 0 2px 10px #fff0f0;
+      border: 3px dashed #ffb6c1;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .password-title {
+      font-size: 2.5rem;
+      color: #b3405c;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 0 #ffd9e2;
+    }
+
+    .password-sub {
+      font-size: 1.5rem;
+      color: #aa4a5e;
+      margin-bottom: 30px;
+      background: #fff0f0;
+      padding: 8px 20px;
+      border-radius: 50px;
+      display: inline-block;
+    }
+
+    .password-input-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      padding: 0 10px;
+    }
+
+    .password-digit {
+      width: 65px;
+      height: 85px;
+      font-size: 3.2rem;
+      text-align: center;
+      font-family: 'Hi Melody', cursive;
+      background: #fff9f7;
+      border: 4px solid #ffb8c9;
+      border-radius: 20px;
+      color: #b33b5c;
+      box-shadow: 0 6px 0 #f5a3b3;
+      outline: none;
+    }
+
+    .password-digit:focus {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #f5a3b3;
+      border-color: #ff8da1;
+    }
+
+    .password-hint {
+      font-size: 1.4rem;
+      color: #a54e63;
+      background: #ffeef2;
+      padding: 8px 20px;
+      border-radius: 40px;
+      margin: 15px 0;
+      display: inline-block;
+    }
+
+    .password-error {
+      color: #d1455a;
+      font-size: 1.4rem;
+      min-height: 2.5rem;
+      margin: 10px 0;
+    }
+
+    .password-btn {
+      background: #ffced9;
+      border: 3px solid #ff9eb2;
+      padding: 15px 45px;
+      border-radius: 50px;
+      font-size: 2rem;
+      font-family: 'Hi Melody', cursive;
+      color: #9f4157;
+      box-shadow: 0 8px 0 #e58e9f;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 15px;
+    }
+
+    .password-btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 #e58e9f;
+    }
+
+    /* ===== ENTRANCE SCREEN ===== */
+    #entrance-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(145deg, #ffd9e6 0%, #ffe4e1 60%, #fff2df 100%);
+      z-index: 30;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+      pointer-events: auto;
+    }
+
+    #entrance-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cat-left {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      width: 130px;
+      height: auto;
+      animation: walkCycle 6s infinite ease-in-out;
+      filter: drop-shadow(0 8px 12px rgba(255,140,170,0.2));
+      z-index: 35;
+    }
+
+    .cat-right {
+      position: absolute;
+      top: 15px;
+      right: 10px;
+      width: 100px;
+      transform: scaleX(-1) rotate(8deg);
+      animation: peekWiggle 5s infinite alternate;
+      filter: drop-shadow(4px 10px 10px rgba(240,150,180,0.3));
+      z-index: 35;
+    }
+
+    @keyframes walkCycle {
+      0% { left: -5%; transform: scaleX(1) translateY(0); }
+      25% { left: 15%; transform: scaleX(1) translateY(-4px); }
+      50% { left: 40%; transform: scaleX(1) translateY(2px); }
+      75% { left: 65%; transform: scaleX(1) translateY(-6px); }
+      100% { left: 82%; transform: scaleX(1) translateY(0); }
+    }
+
+    @keyframes peekWiggle {
+      0% { transform: scaleX(-1) rotate(8deg) translate(0, 0); }
+      50% { transform: scaleX(-1) rotate(3deg) translate(-8px, -4px); }
+      100% { transform: scaleX(-1) rotate(12deg) translate(-2px, 6px); }
+    }
+
+    .cat-jump {
+      animation: happyJump 0.6s ease-in-out !important;
+    }
+
+    @keyframes happyJump {
+      0% { transform: translateY(0); }
+      30% { transform: translateY(-25px) scale(1.1); }
+      70% { transform: translateY(5px) rotate(2deg); }
+      100% { transform: translateY(0); }
+    }
+
+    .glowing-title {
+      font-family: 'Hi Melody', cursive;
+      font-size: clamp(2.8rem, 15vw, 5rem);
+      color: #b3405c;
+      text-shadow: 0 0 6px #ffb7c5, 0 0 20px #ffd9e2, 2px 4px 12px #fbaabd;
+      background: rgba(255, 245, 240, 0.4);
+      padding: 0.2rem 2rem;
+      border-radius: 200px;
+      margin-top: 15vh;
+      margin-bottom: 0.5rem;
+      z-index: 40;
+    }
+
+    .open-btn {
+      background: #ffe4e9;
+      border: 3px solid #ffb1c0;
+      padding: 16px 42px;
+      border-radius: 60px;
+      font-size: 2rem;
+      font-family: 'Hi Melody', cursive;
+      color: #aa4a5e;
+      box-shadow: 0 12px 0 #f5a3b3, 0 4px 18px #ffcfd6;
+      cursor: pointer;
+      margin-top: 20px;
+      z-index: 45;
+    }
+
+    .open-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 4px 0 #f59aaa;
+    }
+
+    /* ===== MAIN SCRAPBOOK ===== */
+    #main-scrapbook {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: #fef7ed;
+      background-image: linear-gradient(#ffece5 1px, transparent 1px),
+        linear-gradient(90deg, #ffece5 1px, transparent 1px);
+      background-size: 40px 40px;
+      padding: 2rem 1rem 4rem;
+      display: none;
+      z-index: 20;
+    }
+
+    #main-scrapbook.visible {
+      display: block;
+    }
+
+    .paper-texture {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      pointer-events: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.08 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.15"/></svg>');
+      opacity: 0.2;
+      z-index: 21;
+    }
+
+    .valentine-message {
+      background: rgba(255, 250, 245, 0.8);
+      backdrop-filter: blur(2px);
+      max-width: 750px;
+      margin: 2rem auto 2.5rem;
+      padding: 2rem;
+      border-radius: 80px 20px 80px 20px;
+      box-shadow: 0 12px 30px rgba(250, 180, 190, 0.2);
+      animation: softOpen 0.9s forwards;
+      border: 2px dashed #ffbfbf;
+      font-size: 1.8rem;
+      text-align: center;
+      color: #794c5c;
+    }
+
+    @keyframes softOpen {
+      0% { opacity: 0; transform: scale(0.92); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .scrapbook-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px 35px;
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 10px 15px;
+    }
+
+    .polaroid {
+      background: #fef9f0;
+      padding: 12px 12px 35px 12px;
+      box-shadow: 0 12px 25px rgba(220, 150, 160, 0.4);
+      border-radius: 4px 15px 15px 15px;
+      width: 200px;
+      cursor: pointer;
+      position: relative;
+      border: 1px solid #ffdad5;
+      transition: all 0.25s ease;
+    }
+
+    .polaroid:hover {
+      transform: scale(1.05) translateY(-8px) !important;
+      box-shadow: 0 20px 28px #ebb5c0;
+    }
+
+    .polaroid::before {
+      content: "";
+      position: absolute;
+      top: -10px;
+      left: 30%;
+      width: 60px;
+      height: 26px;
+      background: rgba(255,240,210,0.7);
+      transform: rotate(-6deg);
+      border-left: 3px dotted #ffb8b8;
+      border-right: 3px dotted #ffb8b8;
+      z-index: 5;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* ===== FLOATING ELEMENTS ===== */
+    .floating-heart, .sparkle {
+      position: fixed;
+      font-size: 1.6rem;
+      opacity: 0.7;
+      user-select: none;
+      pointer-events: none;
+      z-index: 50;
+      animation: floatUp 8s linear infinite;
+      bottom: -20px;
+    }
+
+    .sparkle {
+      font-size: 1.2rem;
+      animation: floatUp 10s infinite;
+      color: #ffe7b0;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-100vh) rotate(300deg); opacity: 0; }
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255, 235, 235, 0.96);
+      backdrop-filter: blur(7px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border: 14px solid #fff5ee;
+      border-radius: 30px;
+      background: #ffe0e0;
+      padding: 8px;
+    }
+
+    .modal-content img {
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: 20px;
+      display: block;
+    }
+
+    .modal-close {
+      margin-top: 22px;
+      background: #ffc2c9;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 40px;
+      font-size: 1.8rem;
+      font-family: 'Hi Melody', cursive;
+      color: #623b44;
+      box-shadow: 0 6px 0 #b37b86;
+      cursor: pointer;
+    }
+
+    .paw-print {
+      position: fixed;
+      width: 35px;
+      height: 35px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffc0cb" opacity="0.4"><circle cx="6" cy="6" r="3"/><circle cx="14" cy="6" r="3"/><circle cx="10" cy="14" r="3.5"/><circle cx="4" cy="16" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>');
+      background-size: contain;
+      pointer-events: none;
+      opacity: 0.2;
+      z-index: 22;
+    }
+
+    @media (max-width: 600px) {
+      .glowing-title { font-size: 3.2rem; }
+      .open-btn { font-size: 1.8rem; padding: 12px 30px; }
+      .valentine-message { font-size: 1.5rem; }
+      .polaroid { width: 150px; }
+      .polaroid img { height: 130px; }
+      .password-digit { width: 45px; height: 60px; font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- AUDIO -->
+  <audio id="bg-audio" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ===== PASSWORD SCREEN ===== -->
+  <div id="password-screen">
+    <div class="password-box">
+      <h2 class="password-title">🔐 Untuk Ichaa Saja</h2>
+      <div class="password-sub">demi keamanan</div>
+      
+      <div class="password-input-group" id="passwordInputs">
+        <!-- Input digits akan dibuat oleh JavaScript -->
+      </div>
+      
+      <div class="password-hint">💌 masukkan 6 digit spesial </div>
+      <div class="password-error" id="passwordError"></div>
+      
+      <button class="password-btn" id="checkPasswordBtn">Klik sinii >< </button>
+    </div>
+  </div>
+
+  <!-- ===== ENTRANCE SCREEN ===== -->
+  <div id="entrance-screen">
+    <img class="cat-left" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 100'%3E%3Ccircle cx='40' cy='50' r='28' fill='%23f9cfdf'/%3E%3Ccircle cx='80' cy='50' r='28' fill='%23f9cfdf'/%3E%3Ccircle cx='34' cy='43' r='4' fill='%23332'/%3E%3Ccircle cx='70' cy='43' r='4' fill='%23332'/%3E%3Cpolygon points='50,65 58,75 68,65' fill='%23ff80a5'/%3E%3Cpath d='M20 30 Q 35 10 55 20' stroke='%23b3545c' stroke-width='5' fill='none' stroke-linecap='round' /%3E%3C/svg%3E" alt="walking cat">
+    <img class="cat-right" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='45' cy='50' r='30' fill='%23fbdfe8'/%3E%3Ccircle cx='75' cy='45' r='23' fill='%23fbdfe8'/%3E%3Ccircle cx='42' cy='44' r='4' fill='%23222'/%3E%3Ccircle cx='70' cy='42' r='3' fill='%23222'/%3E%3Cpath d='M25 30 L40 18' stroke='%23b3545c' stroke-width='6' fill='none' stroke-linecap='round' /%3E%3Cpolygon points='40,70 50,83 64,70' fill='%23ff99bb'/%3E%3C/svg%3E" alt="peeking cat">
+    
+    <h1 class="glowing-title">Valentinee?</h1>
+    <button class="open-btn" id="openHeartBtn">Klikk sinii yeee 😝</button>
+  </div>
+
+  <!-- ===== MAIN SCRAPBOOK ===== -->
+  <div id="main-scrapbook">
+    <div class="paper-texture"></div>
+    <div id="float-container" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index:55;"></div>
+
+    <div class="valentine-message">
+      <span>^^</span>Happy Valentinee Ichaaa 😝 <br> 
+ I just want to sayy kalauu you deserved thiss.
+ Ndatau ini efek lingkungan atau efek kamu, tapi belakangan ini jadii happy teruss lebih dari biasanya.
+Terima kasih sudah jadi manusia yang chatnya selalu ku tunggu
+Jangan bosen truss ilangg ya soalnya kalau ilangg  kann sadd <span>😕</span><br>
+      Makasii yaaa You make every day special
+    </div>
+
+    <div class="scrapbook-grid">
+      <div class="polaroid" onclick="openModal(this)">
+        <img src="photo1.jpg" alt="Foto 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'170\' viewBox=\'0 0 200 170\'%3E%3Crect width=\'200\' height=\'170\' fill=\'%23ffe4e9\'/%3E%3Ccircle cx=\'100\' cy=\'80\' r=\'45\' fill=\'%23ffb7c5\'/%3E%3Cpath d=\'M70 120 Q 100 140 130 120\' stroke=\'%23b3405c\' stroke-width=\'7\' fill=\'none\' /%3E%3Ctext x=\'60\' y=\'160\' fill=\'%23a55363\' font-size=\'20\' font-family=\'Hi Melody\'%3E🌸%3C/text%3E%3C/svg%3E'">
+      </div>
+
+      <div class="polaroid" onclick="openModal(this)">
+        <img src="photo2.jpg" alt="Foto 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'170\' viewBox=\'0 0 200 170\'%3E%3Crect width=\'200\' height=\'170\' fill=\'%23fadadd\'/%3E%3Cpath d=\'M40 70 Q 100 30 160 70\' stroke=\'%23f7768e\' stroke-width=\'10\' fill=\'none\' /%3E%3Ccircle cx=\'100\' cy=\'100\' r=\'36\' fill=\'%23ffc2c9\'/%3E%3Ctext x=\'75\' y=\'160\' fill=\'%23aa4560\' font-size=\'26\' font-family=\'Hi Melody\'%3E🐱%3C/text%3E%3C/svg%3E'">
+      </div>
+
+      <div class="polaroid" onclick="openModal(this)">
+        <img src="photo3.jpg" alt="Foto 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'170\' viewBox=\'0 0 200 170\'%3E%3Crect width=\'200\' height=\'170\' fill=\'%23ffe0d0\'/%3E%3Cpolygon points=\'100,40 120,90 70,90\' fill=\'%23ffb0b0\'/%3E%3Ctext x=\'70\' y=\'140\' fill=\'%23944e63\' font-size=\'26\' font-family=\'Hi Melody\'%3E🐾%3C/text%3E%3C/svg%3E'">
+      </div>
+    </div>
+
+    <div style="text-align: center; margin: 20px; color: #b3848a; font-size: 1.8rem;"> from Adalah pokoknya ️</div>
+  </div>
+
+  <!-- ===== MODAL ===== -->
+  <div id="photoModal" class="modal">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <img id="modalImage" src="" alt="fullsize placeholder">
+    </div>
+    <button class="modal-close" onclick="closeModal()">close</button>
+  </div>
+
+  <script>
+    (function() {
+      // ===== PASSWORD CONFIG =====
+      const PASSWORD = "220803"; // 22-08-03 (6 digit)
+      const DIGIT_COUNT = PASSWORD.length; // Otomatis menyesuaikan jumlah digit
+      
+      const passwordScreen = document.getElementById('password-screen');
+      const entranceScreen = document.getElementById('entrance-screen');
+      const mainBook = document.getElementById('main-scrapbook');
+      const openBtn = document.getElementById('openHeartBtn');
+      const leftCat = document.querySelector('.cat-left');
+      const rightCat = document.querySelector('.cat-right');
+      const audio = document.getElementById('bg-audio');
+      const floatContainer = document.getElementById('float-container');
+      const modal = document.getElementById('photoModal');
+      const modalImg = document.getElementById('modalImage');
+      const passwordInputs = document.getElementById('passwordInputs');
+      const errorEl = document.getElementById('passwordError');
+      
+      // ===== BUAT INPUT DIGIT OTOMATIS =====
+      for (let i = 0; i < DIGIT_COUNT; i++) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'password-digit';
+        input.id = `digit${i+1}`;
+        input.maxLength = '1';
+        input.inputMode = 'numeric';
+        passwordInputs.appendChild(input);
+      }
+      
+      // ===== AMBIL SEMUA INPUT DIGIT =====
+      const digitInputs = [];
+      for (let i = 0; i < DIGIT_COUNT; i++) {
+        digitInputs.push(document.getElementById(`digit${i+1}`));
+      }
+      
+      // ===== FLOATING HEARTS =====
+      for (let i = 0; i < 30; i++) {
+        const element = document.createElement('span');
+        element.className = i % 2 === 0 ? 'floating-heart' : 'sparkle';
+        element.innerHTML = i % 2 === 0 ? ['❤️','😝','😸','💐','🍫'][Math.floor(Math.random() * 5)] : '✨';
+        element.style.left = Math.random() * 100 + '%';
+        element.style.animationDuration = (5 + Math.random() * 8) + 's';
+        element.style.animationDelay = (Math.random() * 5) + 's';
+        element.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+        floatContainer.appendChild(element);
+      }
+
+      // ===== RANDOM ROTATION POLAROID =====
+      document.querySelectorAll('.polaroid').forEach(p => {
+        const rot = (Math.random() * 8 - 4).toFixed(1);
+        p.style.transform = `rotate(${rot}deg)`;
+      });
+
+      // ===== PAW PRINTS =====
+      for (let i = 0; i < 8; i++) {
+        const paw = document.createElement('div');
+        paw.className = 'paw-print';
+        paw.style.top = Math.random() * 90 + '%';
+        paw.style.left = Math.random() * 90 + '%';
+        document.body.appendChild(paw);
+      }
+
+      // ===== AUTO MOVE TO NEXT DIGIT =====
+      for (let i = 0; i < DIGIT_COUNT; i++) {
+        const input = digitInputs[i];
+        
+        // Saat input diisi
+        input.addEventListener('input', function() {
+          this.value = this.value.replace(/[^0-9]/g, ''); // Hanya angka
+          
+          if (this.value.length === 1 && i < DIGIT_COUNT - 1) {
+            digitInputs[i + 1].focus();
+          }
+        });
+        
+        // Saat backspace ditekan
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Backspace' && this.value.length === 0 && i > 0) {
+            digitInputs[i - 1].focus();
+          }
+        });
+      }
+
+      // ===== CEK PASSWORD =====
+      document.getElementById('checkPasswordBtn').addEventListener('click', function() {
+        let entered = '';
+        for (let i = 0; i < DIGIT_COUNT; i++) {
+          entered += digitInputs[i].value;
+        }
+        
+        if (entered === PASSWORD) {
+          errorEl.innerHTML = '💖 Selamat datang Ichaa! 💖';
+          passwordScreen.classList.add('fade-out');
+          
+          setTimeout(() => {
+            passwordScreen.style.display = 'none';
+            entranceScreen.style.display = 'flex';
+          }, 800);
+        } else {
+          errorEl.innerHTML = '❌ Bukan Ichaa nih... coba lagi ❌';
+          // Kosongkan semua input
+          for (let i = 0; i < DIGIT_COUNT; i++) {
+            digitInputs[i].value = '';
+          }
+          digitInputs[0].focus();
+        }
+      });
+
+      // ===== TOMBOL OPEN HEART =====
+      openBtn.addEventListener('click', function() {
+        leftCat.classList.add('cat-jump');
+        rightCat.classList.add('cat-jump');
+        setTimeout(() => {
+          leftCat.classList.remove('cat-jump');
+          rightCat.classList.remove('cat-jump');
+        }, 700);
+
+        entranceScreen.classList.add('fade-out');
+        mainBook.classList.add('visible');
+        
+        audio.play().catch(e => console.log('Audio tidak dapat diputar'));
+      });
+
+      // ===== MODAL FUNCTIONS =====
+      window.openModal = function(polaroid) {
+        const img = polaroid.querySelector('img');
+        if (img) {
+          modalImg.src = img.src;
+          modal.classList.add('show');
+        }
+      };
+
+      window.closeModal = function() {
+        modal.classList.remove('show');
+      };
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // ===== FOCUS DIGIT PERTAMA =====
+      digitInputs[0].focus();
+    })();
+  </script>
+</body>
+</html>
+
+
